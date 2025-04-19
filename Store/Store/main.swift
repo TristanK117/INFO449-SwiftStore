@@ -78,3 +78,23 @@ class Store {
         return "Hello world"
     }
 }
+
+class WeighedItem: SKU { // Price by weight
+    let name: String
+    private let pricePerPoundInCents: Int
+    private let weightInPounds: Double
+
+    init(name: String, pricePerPound: Int, weight: Double) {
+        self.name = name
+        self.pricePerPoundInCents = pricePerPound
+        self.weightInPounds = weight
+    }
+
+    func price() -> Int {
+        let rawTotal = Double(pricePerPoundInCents) * weightInPounds
+        return Int(rawTotal.rounded())
+    }
+}
+
+
+

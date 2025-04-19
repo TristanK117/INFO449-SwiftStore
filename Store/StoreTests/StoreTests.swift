@@ -49,27 +49,45 @@ TOTAL: $1.99
         XCTAssertEqual(receipt.total(), 297)
 
         let expectedReceipt = """
-    Receipt:
-    Pencil: $0.99
-    Pencil: $0.99
-    Pencil: $0.99
-    ------------------
-    TOTAL: $2.97
-    """
+Receipt:
+Pencil: $0.99
+Pencil: $0.99
+Pencil: $0.99
+------------------
+TOTAL: $2.97
+"""
         XCTAssertEqual(receipt.output(), expectedReceipt)
     }
     
-    func testEmptyReceipt() { // test 0 items
+    func testEmptyReceipt() { // Testcase 2, 0 items
         XCTAssertEqual(register.subtotal(), 0)
 
         let receipt = register.total()
         XCTAssertEqual(receipt.total(), 0)
 
         let expectedReceipt = """
-    Receipt:
-    ------------------
-    TOTAL: $0.00
-    """
+Receipt:
+------------------
+TOTAL: $0.00
+"""
+        XCTAssertEqual(receipt.output(), expectedReceipt)
+    }
+
+    func testWeighedItem() {
+        let bananas = WeighedItem(name: "Bananas", pricePerPound: 199, weight: 1.25) // $1.99/lb × 1.25 lbs = ~$2.49
+        register.scan(bananas)
+
+        XCTAssertEqual(register.subtotal(), 249)
+
+        let receipt = register.total()
+        XCTAssertEqual(receipt.total(), 249)
+
+        let expectedReceipt = """
+Receipt:
+Bananas: $2.49
+------------------
+TOTAL: $2.49
+"""
         XCTAssertEqual(receipt.output(), expectedReceipt)
     }
     
