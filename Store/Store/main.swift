@@ -12,15 +12,15 @@ protocol SKU {
     func price() -> Int
 }
 
-class Item {
+class Item: SKU {
     let name: String
     private let priceInCents: Int
-    
+
     init(name: String, priceEach: Int) {
         self.name = name
         self.priceInCents = priceEach
     }
-    
+
     func price() -> Int {
         return priceInCents
     }

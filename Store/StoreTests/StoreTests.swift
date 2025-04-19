@@ -38,6 +38,41 @@ TOTAL: $1.99
         XCTAssertEqual(expectedReceipt, receipt.output())
     }
     
+    func testMultipleSameItemsReceipt() { // Multiple Items Testcase 1
+        register.scan(Item(name: "Pencil", priceEach: 99))
+        register.scan(Item(name: "Pencil", priceEach: 99))
+        register.scan(Item(name: "Pencil", priceEach: 99))
+
+        XCTAssertEqual(register.subtotal(), 297)
+
+        let receipt = register.total()
+        XCTAssertEqual(receipt.total(), 297)
+
+        let expectedReceipt = """
+    Receipt:
+    Pencil: $0.99
+    Pencil: $0.99
+    Pencil: $0.99
+    ------------------
+    TOTAL: $2.97
+    """
+        XCTAssertEqual(receipt.output(), expectedReceipt)
+    }
+    
+    func testEmptyReceipt() { // test 0 items
+        XCTAssertEqual(register.subtotal(), 0)
+
+        let receipt = register.total()
+        XCTAssertEqual(receipt.total(), 0)
+
+        let expectedReceipt = """
+    Receipt:
+    ------------------
+    TOTAL: $0.00
+    """
+        XCTAssertEqual(receipt.output(), expectedReceipt)
+    }
+    
     func testThreeSameItems() {
         register.scan(Item(name: "Beans (8oz Can)", priceEach: 199))
         register.scan(Item(name: "Beans (8oz Can)", priceEach: 199))
